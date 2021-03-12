@@ -7,8 +7,24 @@ ThisBuild / organizationName := "example"
 
 lazy val root = (project in file("."))
   .settings(
-    name := "scala-taglessfinal-sample001",
+    name := "taglessfinal-sample1",
+  )
+  .aggregate(core, model, interpreter)
+
+lazy val core = (project in file("core"))
+  .settings(
+    libraryDependencies += "org.typelevel" %% "cats-core" % "2.4.2",
     libraryDependencies += scalaTest % Test
   )
 
-// See https://www.scala-sbt.org/1.x/docs/Using-Sonatype.html for instructions on how to publish to Sonatype.
+lazy val model = (project in file("model"))
+  .settings(
+    libraryDependencies += scalaTest % Test
+  )
+  .dependsOn(core)
+
+lazy val interpreter = (project in file("interpreter"))
+  .settings(
+    libraryDependencies += scalaTest % Test
+  )
+  .dependsOn(model)
